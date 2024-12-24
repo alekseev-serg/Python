@@ -58,8 +58,8 @@ def maintain_memory_load(target_usage=60, check_interval=1, margin=1):
                     total_used -= len(freed_block)
 
             # Печать текущей информации
-            print(f"Используемая память: {total_used / total_memory * 100:.2f}%\n")
-            time.sleep(check_interval)
+            # print(f"Используемая память: {total_used / total_memory * 100:.2f}%\n")
+            # time.sleep(check_interval)
 
     except KeyboardInterrupt:
         print("\nСкрипт завершен. Освобождаем всю выделенную память...")
