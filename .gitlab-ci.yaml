@@ -1,0 +1,9 @@
+stages:
+  - deploy
+
+deploy_utilization_scripts:
+  stage: deploy
+  tags:
+    - Ansible
+  script:
+    - ansible-playbook -i Deploy/inventory Deploy/deploy.yml

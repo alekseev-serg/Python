@@ -9,7 +9,7 @@ def busy_loop(duration):
     while time.time() < end_time:
         pass  # Пустой цикл для нагрузки на процессор
 
-def load_cpu(target_utilization=80, check_interval=1):
+def load_cpu(target_utilization=10, check_interval=1):
     """Функция для поддержания целевой загрузки процессора."""
     num_cores = cpu_count()
     utilization_per_core = target_utilization / 100.0
@@ -45,6 +45,6 @@ def load_cpu(target_utilization=80, check_interval=1):
 if __name__ == "__main__":
     print("Запуск управления загрузкой процессора...")
     try:
-        load_cpu(target_utilization=50)
+        load_cpu(target_utilization=80)
     except KeyboardInterrupt:
         print("\nСкрипт завершен.")

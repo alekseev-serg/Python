@@ -1,4 +1,3 @@
-import os
 import time
 
 def get_memory_info():
@@ -20,17 +19,20 @@ def get_memory_info():
 
     return total_memory, used_memory
 
-def maintain_memory_load(target_usage=60, check_interval=1):
+def maintain_memory_load(target_usage=60, check_interval=1, margin=1):
     """
     Поддерживает загрузку оперативной памяти на заданном уровне.
 
     :param target_usage: Целевой процент использования оперативной памяти (например, 60).
     :param check_interval: Интервал проверки текущего состояния памяти в секундах.
+    :param margin: Допустимый запас в процентах (например, 1% выше или ниже целевого уровня).
     """
     allocated_memory = []  # Список для хранения выделенных блоков памяти
 
     total_memory, _ = get_memory_info()
     target_memory = total_memory * (target_usage / 100)  # Целевой объем используемой памяти
+    min_target_memory = total_memory * ((target_usage - margin) / 100)  # Минимальная допустимая граница
+    max_target_memory = total_memory * ((target_usage + margin) / 100)  # Максимальная допустимая граница
 
     print(f"Общий объем оперативной памяти: {total_memory / (1024**3):.2f} ГБ")
     print(f"Целевая загрузка памяти: {target_usage}% (~{target_memory / (1024**3):.2f} ГБ)\n")
@@ -42,16 +44,16 @@ def maintain_memory_load(target_usage=60, check_interval=1):
 
             total_used = used_memory + current_allocation  # Общая используемая память
 
-            if total_used < target_memory:
-                # Если текущая загрузка меньше целевой, выделяем недостающую память
-                to_allocate = int(target_memory - total_used)
+            if total_used < min_target_memory:
+                # Если текущая загрузка меньше минимальной целевой, выделяем больше памяти
+                to_allocate = int(min_target_memory - total_used)
                 print(f"Добавляем {to_allocate / (1024**2):.2f} МБ памяти...")
                 allocated_memory.append(bytearray(to_allocate))  # Выделяем память
 
-            elif total_used > target_memory:
-                # Если загрузка выше целевой, освобождаем память
+            elif total_used > max_target_memory:
+                # Если загрузка больше максимальной целевой, освобождаем память
                 print(f"Освобождаем часть памяти...")
-                while total_used > target_memory and allocated_memory:
+                while total_used > max_target_memory and allocated_memory:
                     freed_block = allocated_memory.pop()  # Удаляем последний выделенный блок памяти
                     total_used -= len(freed_block)
 
