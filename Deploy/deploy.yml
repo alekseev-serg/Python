@@ -14,17 +14,17 @@
         src: ../Utilization/
         dest: '{{ destination }}'
 
-    - name: Check if CPU_IDLE.py is running
-      ansible.builtin.shell: "ps aux | grep '[p]ython3 {{ destination }}CPU_IDLE.py'"
-      register: cpu_script_status
-      ignore_errors: true
-
-    - name: Run CPU_IDLE.py if not running
-      ansible.builtin.shell: |
-        nohup python3 {{ destination }}CPU_IDLE.py > /home/user/CPU.log 2>&1 &
-      args:
-        executable: /bin/bash
-      when: cpu_script_status.rc != 0
+#    - name: Check if CPU_IDLE.py is running
+#      ansible.builtin.shell: "ps aux | grep '[p]ython3 {{ destination }}CPU_IDLE.py'"
+#      register: cpu_script_status
+#      ignore_errors: true
+#
+#    - name: Run CPU_IDLE.py if not running
+#      ansible.builtin.shell: |
+#        nohup python3 {{ destination }}CPU_IDLE.py > /home/user/CPU.log 2>&1 &
+#      args:
+#        executable: /bin/bash
+#      when: cpu_script_status.rc != 0
 
     - name: Check if RAM.py is running
       ansible.builtin.shell: "ps aux | grep '[p]ython3 {{ destination }}RAM.py'"
