@@ -18,7 +18,7 @@ def cpu_load(target_load=60, tolerance=5):
             # Увеличиваем нагрузку
             print("Увеличиваем нагрузку на CPU")
             start_time = time.time()
-            while time.time() - start_time < 0.1:  # Нагрузка в течение 0.1 секунды
+            while time.time() - start_time < 0.01:  # Нагрузка в течение 0.1 секунды
                 pass  # Нагрузка на CPU
         elif current_load > target_load + tolerance:
             # Уменьшаем нагрузку
