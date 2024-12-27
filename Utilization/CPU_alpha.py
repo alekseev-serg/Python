@@ -1,9 +1,13 @@
 import os
 import time
 
+
 def get_cpu_usage():
+    # Число ядер
+    print(os.cpu_count())
     # Получаем загрузку CPU в процентах
-    return float(os.popen("grep 'cpu ' /proc/stat").readline().split()[1]) / os.cpu_count() * 100
+    return float(os.popen("grep 'cpu ' /proc/stat").readline().split()[1]) / (os.cpu_count() * 100000)
+
 
 def cpu_load(target_load=60, tolerance=5):
     while True:
@@ -22,6 +26,7 @@ def cpu_load(target_load=60, tolerance=5):
             time.sleep(0.5)  # Уменьшаем нагрузку, просто ждем
 
         time.sleep(1)  # Пауза перед следующей проверкой
+
 
 if __name__ == "__main__":
     cpu_load()
